@@ -2,9 +2,11 @@ package org.example
 
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.options.UiAutomator2Options
+import org.openqa.selenium.WebDriver.Timeouts
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import java.net.URL
+import java.time.Duration
 
 abstract class BaseTest{
 
@@ -17,11 +19,22 @@ abstract class BaseTest{
     private lateinit var driver: AndroidDriver
     private lateinit var options: UiAutomator2Options
 
+    protected open val currentDeviceName = DEVICE_NAME
+    protected open val apkPath = APK_PATH
+
+    protected open val appActivity : String? = null
+
     @BeforeClass
     fun init(){
         options = UiAutomator2Options().apply {
-            setDeviceName(DEVICE_NAME)
-            setApp(APK_PATH)
+//            setDeviceName(currentDeviceName)
+            setApp(apkPath)
+
+            if (appActivity.isPresent){
+                setAppWaitActivity(appActivity.get())
+            }else {
+                setAppWaitActivity("*")
+            }
         }
         driver = AndroidDriver(URL(url), options)
     }
@@ -32,7 +45,8 @@ abstract class BaseTest{
         driver.quit()
     }
 
-    protected fun runWithDriver(task:AndroidDriver.()->Unit){
+    protected fun runWithDriver(timeoutSec: Long = 2L,task:AndroidDriver.()->Unit){
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeoutSec))
         driver.task()
     }
 }
