@@ -15,16 +15,15 @@ class DtacLoginTest : BaseTest() {
     @Test
     fun loginTest() {
         runWithDriver(timeoutSec = 10) {
-            findElement(AppiumBy.id("th.co.crie.tron2.android.dev:id/text_view_picker")).click()
-            findElement(AppiumBy.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/androidx.appcompat.widget.LinearLayoutCompat/androidx.recyclerview.widget.RecyclerView/android.widget.TextView[1]"))
+            findElementById("th.co.crie.tron2.android.dev:id/text_view_picker").click()
+            findElementByXpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/androidx.appcompat.widget.LinearLayoutCompat/androidx.recyclerview.widget.RecyclerView/android.widget.TextView[1]")
                 .click()
-            findElement(AppiumBy.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/androidx.appcompat.widget.LinearLayoutCompat/android.widget.TextView"))
+            findElementByXpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/androidx.appcompat.widget.LinearLayoutCompat/android.widget.TextView")
                 .click()
-            findElement(AppiumBy.id("th.co.crie.tron2.android.dev:id/btnLogin")).click()
-            findElement(AppiumBy.id("th.co.crie.tron2.android.dev:id/etMsisdn")).sendKeys("0880799445")
-            findElement(AppiumBy.id("th.co.crie.tron2.android.dev:id/btnSignIn")).click()
-            findElement(AppiumBy.id("th.co.crie.tron2.android.dev:id/pin_view_otp")).sendKeys("1234")
-            Thread.sleep(3000)
+            findElementById("th.co.crie.tron2.android.dev:id/btnLogin").click()
+            findElementById("th.co.crie.tron2.android.dev:id/etMsisdn").sendKeys("0880799445")
+            findElementById("th.co.crie.tron2.android.dev:id/btnSignIn").click()
+            findElementById("th.co.crie.tron2.android.dev:id/pin_view_otp").sendKeys("1234")
         }
     }
 }
