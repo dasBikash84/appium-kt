@@ -11,6 +11,9 @@ import org.testng.annotations.Test
 
 
 class AppiumBasics : BaseTest() {
+
+    override val apkPath: String
+        get() = "./apks/ApiDemos-debug.apk"
     @Test
     fun test101() {
         runWithDriver {
@@ -46,7 +49,6 @@ class AppiumBasics : BaseTest() {
             findElementByAccessibilityId("WebView").click()
         }
     }
-
 
 
 }

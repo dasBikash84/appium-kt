@@ -3,46 +3,50 @@ package org.example
 import io.appium.java_client.AppiumBy
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.options.UiAutomator2Options
-import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
-import org.openqa.selenium.NotFoundException
-import org.openqa.selenium.WebDriver.Timeouts
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.RemoteWebElement
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
+import java.io.File
 import java.net.URL
 import java.time.Duration
 
 abstract class BaseTest{
 
     companion object{
-        private const val DEVICE_NAME = "emulator-5554"
-        private const val APK_PATH = "/media/bikash/data/work/Trainning/appium/data/APKFiles/resources/ApiDemos-debug.apk"
-        private const val url = "http://127.0.1.1:4723"
+        private const val DEVICE_NAME = ""
+        private const val appiumServerUrl = "http://127.0.1.1:4723"
     }
 
     private lateinit var driver: AndroidDriver
-    private lateinit var options: UiAutomator2Options
+    private lateinit var capabilities: UiAutomator2Options
 
     protected open val currentDeviceName = DEVICE_NAME
-    protected open val apkPath = APK_PATH
+    protected abstract val apkPath:String
 
-    protected open val appActivity : String? = null
+    protected open val waitActivity : String? = null
 
     @BeforeClass
     fun init(){
-        options = UiAutomator2Options().apply {
-//            setDeviceName(currentDeviceName)
-            setApp(apkPath)
+        capabilities = UiAutomator2Options().apply {
 
-            if (appActivity.isPresent){
-                setAppWaitActivity(appActivity.get())
+            if (currentDeviceName.isNotBlank().not()) {
+                setDeviceName(currentDeviceName)
+            }
+
+            println(File(apkPath).absolutePath)
+            setApp(File(apkPath).absolutePath)
+
+            if (waitActivity.isNullOrBlank().not()){
+                setAppWaitActivity(waitActivity)
             }else {
                 setAppWaitActivity("*")
             }
+
         }
-        driver = AndroidDriver(URL(url), options)
+
+        driver = AndroidDriver(URL(appiumServerUrl), capabilities)
     }
 
 
@@ -51,7 +55,7 @@ abstract class BaseTest{
         driver.quit()
     }
 
-    protected fun runWithDriver(timeoutSec: Long = 2L,task:AndroidDriver.()->Unit){
+    protected fun runWithDriver(timeoutSec: Long = 3L,task:AndroidDriver.()->Unit){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeoutSec))
         driver.task()
         Thread.sleep(2000)
@@ -107,7 +111,7 @@ abstract class BaseTest{
                 "width" to width,
                 "height" to height,
                 "direction" to if (down) "down" else "up",
-                "percent" to 50.0
+                "percent" to 3.0
             )
         ) as Boolean
 
